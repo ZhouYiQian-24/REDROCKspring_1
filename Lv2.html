@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function compose(...functions) {
+            return function (chushi) {
+                return functions.reduceRight((acc, func) => func(acc), chushi);
+            };
+        }
+
+        const add10 = (x) => x + 10;
+        const mul10 = (x) => x * 10;
+        const add100 = (x) => x + 100;
+
+        const result = compose(add10, mul10, add100)(10);
+        console.log('同步函数结果:', result);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        async function foo() {
+            console.log("start");
+            await bar();
+            console.log("end");
+        }
+
+        async function bar() {
+            console.log("bar");
+        }
+
+        console.log(1);
+
+        setTimeout(() => {
+            console.log("time");
+        });
+
+        foo();
+
+        new Promise((resolve) => {
+            console.log("p1");
+            resolve();
+        }).then(() => {
+            console.log("p2");
+        });
+
+        console.log(2);
+
+        //给出代码执行流程分析和结果
+        //最前面两端定义了两个函数，由于Javascript是同步优先，所以继续往下看，第三段是直接的输出，所以第一行输出“1”
+        //第四段setTimeout也是异步的，其内容存入宏任务之中
+        //第五段开始，同步执行完毕，开始执行异步，调用foo函数，所以第二行输出“start”，第三行输出“bar”
+        //由于有await函数暂停执行，“end”存入微任务队列中，等待Promise
+        //第六段Promise的构造函数中的代码是同步执行的，第四行直接输出“p1”，之后继续执行同步，第五行输出“2”
+        //继续看Promise函数，调用resolve函数，触发then，但是由于是异步的，把then中的“p2”也存入微任务队列中
+        //执行完毕后开始按顺序输出微任务队列中的值，“end”，“p2”，完成后，输出宏任务队列中的值，“time”
+    </script>
+</body>
+
+</html>

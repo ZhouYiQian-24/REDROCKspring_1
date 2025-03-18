@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .searchbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+        }
+
+        #search-input {
+            padding: 10px;
+            width: 300px;
+            border-radius: 15px 0 0 15px;
+        }
+
+        #search-button {
+            padding: 10px;
+            height: 40px;
+            border-radius: 0 15px 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="searchbox">
+        <input type="text" id="search-input" placeholder="搜索......">
+        <button id="search-button">搜索</button>
+    </div>
+    <script>
+        // 节流函数
+        function throttle(func, delay) {
+            let time = 0;
+            return function (...args) {
+                const now = Date.now();
+                if (now - time > delay) {
+                    func.apply(this, args);
+                    time = now;
+                }
+            };
+        }
+
+
+        // 示例使用
+        const input = document.getElementById('search-input');
+
+        // 模拟处理输入的函数
+        function handleInput() {
+            console.log('输入值:', input.value);
+        }
+
+        使用节流优化输入框
+        const throttledHandleInput = throttle(handleInput, 300);
+        input.addEventListener('input', throttledHandleInput);
+
+  
+    </script>
+</body>
+
+</html>
